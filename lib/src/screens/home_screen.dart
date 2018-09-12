@@ -15,11 +15,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.initState();
 
     catAnimationController = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: Duration(milliseconds: 200),
       vsync: this,
     );
 
-    catAnimation = Tween(begin: 0.0, end: 100.0).animate(
+    catAnimation = Tween(begin: -20.0, end: -80.0).animate(
       CurvedAnimation(
         parent: catAnimationController,
         curve: Curves.easeIn,
@@ -42,22 +42,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         title: Text("Animation"),
       ),
       body: GestureDetector(
-        child: buildAnimation(),
+        child: Center(
+          child: Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              buildCatAnimation(),
+              buildBox(),
+            ],
+          ),
+        ),
         onTap: catOnTap,
       ),
     );
   }
 
-  Widget buildAnimation() {
+  Widget buildCatAnimation() {
     return AnimatedBuilder(
       animation: catAnimation,
       builder: (context, child) {
-        return Container(
+        return Positioned(
           child: child,
-          margin: EdgeInsets.only(top: catAnimation.value),
+          top: catAnimation.value,
+          right: 0.0,
+          left: 0.0,
         );
       },
       child: Cat(),
+    );
+  }
+
+  Widget buildBox() {
+    return Container(
+      height: 200.0,
+      width: 200.0,
+      color: Theme.of(context).primaryColor,
     );
   }
 }
