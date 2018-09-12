@@ -6,18 +6,54 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  Animation<double> catAnimation;
+  AnimationController catAnimationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    catAnimationController = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    catAnimation = Tween(begin: 0.0, end: 100.0).animate(
+      CurvedAnimation(
+        parent: catAnimationController,
+        curve: Curves.easeIn,
+      ),
+    );
+  }
+
+  catOnTap() {
+    catAnimationController.forward();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Animation"),
       ),
-      body: buildAnimation(),
+      body: GestureDetector(
+        child: buildAnimation(),
+        onTap: catOnTap,
+      ),
     );
   }
 
   Widget buildAnimation() {
-    return Cat();
+    return AnimatedBuilder(
+      animation: catAnimation,
+      builder: (context, child) {
+        return Container(
+          child: child,
+          margin: EdgeInsets.only(top: catAnimation.value),
+        );
+      },
+      child: Cat(),
+    );
   }
 }
