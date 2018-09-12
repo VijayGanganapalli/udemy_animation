@@ -28,7 +28,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   catOnTap() {
-    catAnimationController.forward();
+    if (catAnimationController.status == AnimationStatus.completed) {
+      catAnimationController.reverse();
+    } else if (catAnimationController.status == AnimationStatus.dismissed) {
+      catAnimationController.forward();
+    }
   }
 
   @override
