@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/helper_classes/cat.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,6 +13,11 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text("Animation"),
       ),
+      body: buildAnimation(),
     );
+  }
+
+  Widget buildAnimation() {
+    return Cat();
   }
 }
